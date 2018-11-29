@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from .models import Author, Recipe
-from .forms import RecipeAdd
+from .forms import RecipeAdd, AuthAdd
 
 
 def index(request):
@@ -49,9 +49,30 @@ def recipe_add(request):
                 author=Author.objects.filter(id=data['author']).first()
             )
 
-        return render(request, '/recipes/thanks.html')
+        return render(request, 'recipes/thanks.html')
 
     else:
         form = RecipeAdd()
+
+    return render(request, html, {'form': form})
+
+def author_add(request):
+    html = 'authors/author_add.html'
+    form = None
+
+    if request.method == 'POST':
+        form = AuthAdd(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            Author.objects.create(
+                name=data['name'],
+                bio=data['bio']
+            )
+
+        return render(request, 'recipes/thanks.html')
+
+    else:
+        form = AuthAdd()
 
     return render(request, html, {'form': form})
