@@ -1,2 +1,17 @@
 <p> Recipe: {{ recipe_item }} </p>
-<p> Author: <a href="/authors/{{ author.id }}/">{{ author.name }}</a></p>
+<p> Author: <a href="/authors/{{ recipe_item.author.id }}/">{{ recipe_item.author.name }}</a></p>
+{% if recipe_item.author.id == request.user.author.id %}
+<a href="/recipes/edit/{{recipe_item.id}}"><button>Edit</button></a>
+{% endif %}
+{% if request.user.is_staff %}
+<a href="/recipes/edit/{{recipe_item.id}}"><button>Edit</button></a>
+{% endif %}
+{% if request.user.is_authenticated %}
+<a href="/recipes/favorite/{{recipe_item.id}}"><button>
+    {% if recipe_item in favorites %}
+        Remove favorite
+    {% else %}
+        Favorite
+    {% endif %}
+</button></a>
+{% endif %}

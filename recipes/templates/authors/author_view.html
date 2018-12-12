@@ -1,5 +1,5 @@
-<p>{{author_name}}</p>
-
+<p>Author: {{author_name}}</p>
+<p>Recipes</p>
 {% if authors_recipes %}
     <ul>
         {% for recipe in authors_recipes %}
@@ -9,4 +9,9 @@
 {% else %}
     <p>This author has no recipes</p>
 {% endif %}
-<a href="/authors/authoradd/">Add a new Author</a>
+<p>Favorites</p>
+<ul>
+{% for recipe in author_favorites %}
+    <li><a href="/recipes/{{ recipe.id }}/">{{recipe.name}}</a></li>
+{% endfor %}
+</ul>
